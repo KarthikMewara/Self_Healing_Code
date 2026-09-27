@@ -1,0 +1,11 @@
+# Python Environment & Cache
+venv/
+__pycache__/
+hf_cache/
+*.pyc
+
+
+# Frontend Node Modules & Builds
+Frontend/node_modules/
+google.env
+

@@ -1,0 +1,713 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   Design tokens
+   Light is crisp and cool; dark is a deep navy-black instead of flat #000 so
+   the luminous accents (sky / violet / emerald) have something to glow against.
+   ========================================================================== */
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color-scheme: light;
+  --background: oklch(0.985 0.004 255);
+  --foreground: oklch(0.21 0.02 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.02 265);
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.962 0.007 255);
+  --secondary-foreground: oklch(0.26 0.02 265);
+  --muted: oklch(0.958 0.008 255);
+  --muted-foreground: oklch(0.51 0.022 262);
+  --accent: oklch(0.948 0.012 250);
+  --accent-foreground: oklch(0.26 0.02 265);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+  --info: #7c3aed;
+  --info-foreground: #ffffff;
+  --border: oklch(0.905 0.01 258);
+  --input: oklch(0.9 0.012 258);
+  --ring: #0284c7;
+  --chart-1: #0284c7;
+  --chart-2: #7c3aed;
+  --chart-3: #059669;
+  --chart-4: #d97706;
+  --chart-5: oklch(0.577 0.245 27.325);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.975 0.006 255);
+  --sidebar-foreground: oklch(0.21 0.02 265);
+  --sidebar-primary: #0284c7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: oklch(0.945 0.012 252);
+  --sidebar-accent-foreground: oklch(0.26 0.02 265);
+  --sidebar-border: oklch(0.915 0.01 258);
+  --sidebar-ring: #0284c7;
+
+  /* Syntax highlighting */
+  --syn-plain: oklch(0.27 0.02 265);
+  --syn-keyword: #7c3aed;
+  --syn-string: #15803d;
+  --syn-number: #c2410c;
+  --syn-comment: #8a94a6;
+  --syn-function: #0369a1;
+  --syn-type: #b45309;
+  --syn-constant: #be185d;
+  --syn-operator: #475569;
+  --syn-punctuation: #64748b;
+  --syn-property: #0e7490;
+  --syn-decorator: #a21caf;
+
+  /* Atmosphere */
+  --aurora-1: color-mix(in oklch, #38bdf8 38%, transparent);
+  --aurora-2: color-mix(in oklch, #a78bfa 34%, transparent);
+  --aurora-3: color-mix(in oklch, #34d399 26%, transparent);
+  --aurora-4: color-mix(in oklch, #fbbf24 20%, transparent);
+  --grid-line: color-mix(in oklch, var(--foreground) 7%, transparent);
+  --noise-opacity: 0.035;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.135 0.018 264);
+  --foreground: oklch(0.97 0.006 260);
+  --card: oklch(0.172 0.02 264);
+  --card-foreground: oklch(0.97 0.006 260);
+  --popover: oklch(0.188 0.022 264);
+  --popover-foreground: oklch(0.97 0.006 260);
+  --primary: #38bdf8;
+  --primary-foreground: #04131c;
+  --secondary: oklch(0.232 0.022 264);
+  --secondary-foreground: oklch(0.97 0.006 260);
+  --muted: oklch(0.228 0.021 264);
+  --muted-foreground: oklch(0.72 0.02 262);
+  --accent: oklch(0.25 0.026 264);
+  --accent-foreground: oklch(0.97 0.006 260);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: #1a0605;
+  --success: #34d399;
+  --success-foreground: #06281c;
+  --warning: #fbbf24;
+  --warning-foreground: #271b03;
+  --info: #a78bfa;
+  --info-foreground: #1c1533;
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 13%);
+  --ring: #38bdf8;
+  --chart-1: #38bdf8;
+  --chart-2: #a78bfa;
+  --chart-3: #34d399;
+  --chart-4: #fbbf24;
+  --chart-5: oklch(0.704 0.191 22.216);
+  --sidebar: oklch(0.148 0.019 264);
+  --sidebar-foreground: oklch(0.97 0.006 260);
+  --sidebar-primary: #38bdf8;
+  --sidebar-primary-foreground: #04131c;
+  --sidebar-accent: oklch(0.215 0.024 264);
+  --sidebar-accent-foreground: oklch(0.97 0.006 260);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: #38bdf8;
+
+  --syn-plain: #e2e8f0;
+  --syn-keyword: #c4b5fd;
+  --syn-string: #86efac;
+  --syn-number: #fdba74;
+  --syn-comment: #64748b;
+  --syn-function: #7dd3fc;
+  --syn-type: #fcd34d;
+  --syn-constant: #f9a8d4;
+  --syn-operator: #94a3b8;
+  --syn-punctuation: #8b98ad;
+  --syn-property: #a5f3fc;
+  --syn-decorator: #f0abfc;
+
+  --aurora-1: color-mix(in oklch, #0ea5e9 42%, transparent);
+  --aurora-2: color-mix(in oklch, #8b5cf6 38%, transparent);
+  --aurora-3: color-mix(in oklch, #10b981 26%, transparent);
+  --aurora-4: color-mix(in oklch, #f59e0b 16%, transparent);
+  --grid-line: color-mix(in oklch, white 6%, transparent);
+  --noise-opacity: 0.05;
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ==========================================================================
+   Animation tokens -> generates animate-* utilities (with variant support)
+   ========================================================================== */
+
+@theme {
+  --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-blob-drift: blob-drift 22s ease-in-out infinite;
+  --animate-blob-drift-alt: blob-drift-alt 26s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-shimmer-sweep: shimmer-sweep 2.8s ease-in-out infinite;
+  --animate-marquee: marquee var(--marquee-duration, 36s) linear infinite;
+  --animate-marquee-reverse: marquee-reverse var(--marquee-duration, 36s) linear infinite;
+  --animate-float-y: float-y 5s ease-in-out infinite;
+  --animate-gradient-pan: gradient-pan 6s linear infinite;
+  --animate-beam-spin: beam-spin var(--beam-duration, 6s) linear infinite;
+  --animate-scan: scan 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-ping-soft: ping-soft 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-shake: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  --animate-caret: caret 1s steps(1) infinite;
+  --animate-spin-slow: spin 9s linear infinite;
+  --animate-shimmer: shimmer 1.8s linear infinite;
+  --animate-glitch: glitch 2.6s steps(1) infinite;
+  --animate-aurora: aurora 18s ease-in-out infinite alternate;
+  --animate-dash: dash 2.4s linear infinite;
+  --animate-breathe: breathe 2.4s ease-in-out infinite;
+  --animate-bell: bell 2.8s ease-in-out infinite;
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes blob-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(36px, -42px, 0) scale(1.08);
+    }
+    66% {
+      transform: translate3d(-28px, 30px, 0) scale(0.95);
+    }
+  }
+  @keyframes blob-drift-alt {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    40% {
+      transform: translate3d(-40px, 34px, 0) scale(0.93);
+    }
+    75% {
+      transform: translate3d(30px, -24px, 0) scale(1.1);
+    }
+  }
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes shimmer-sweep {
+    from {
+      transform: translateX(-160%) skewX(-14deg);
+    }
+    to {
+      transform: translateX(260%) skewX(-14deg);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes gradient-pan {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 200% 50%;
+    }
+  }
+  @keyframes beam-spin {
+    to {
+      --beam-angle: 360deg;
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+  @keyframes ping-soft {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translateX(-1px);
+    }
+    20%,
+    80% {
+      transform: translateX(3px);
+    }
+    30%,
+    50%,
+    70% {
+      transform: translateX(-5px);
+    }
+    40%,
+    60% {
+      transform: translateX(5px);
+    }
+  }
+  @keyframes caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes glitch {
+    0%,
+    62%,
+    100% {
+      transform: translate(0);
+      text-shadow: none;
+    }
+    64% {
+      transform: translate(-2px, 1px);
+      text-shadow:
+        2px 0 color-mix(in oklch, var(--primary) 80%, transparent),
+        -2px 0 color-mix(in oklch, var(--destructive) 90%, transparent);
+    }
+    66% {
+      transform: translate(2px, -1px);
+      text-shadow:
+        -3px 0 color-mix(in oklch, var(--primary) 80%, transparent),
+        3px 0 color-mix(in oklch, var(--destructive) 90%, transparent);
+    }
+    68% {
+      transform: translate(-1px, 0);
+      text-shadow:
+        1px 0 color-mix(in oklch, var(--info) 80%, transparent),
+        -1px 0 color-mix(in oklch, var(--destructive) 90%, transparent);
+    }
+    70% {
+      transform: translate(0);
+      text-shadow: none;
+    }
+  }
+  @keyframes aurora {
+    0% {
+      transform: translate3d(-4%, 0, 0) rotate(0deg) scale(1);
+    }
+    50% {
+      transform: translate3d(3%, -3%, 0) rotate(4deg) scale(1.06);
+    }
+    100% {
+      transform: translate3d(5%, 2%, 0) rotate(-3deg) scale(1);
+    }
+  }
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -1000;
+    }
+  }
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.82);
+      opacity: 0.65;
+    }
+  }
+  @keyframes bell {
+    0%,
+    86%,
+    100% {
+      transform: rotate(0);
+    }
+    88% {
+      transform: rotate(14deg);
+    }
+    90% {
+      transform: rotate(-12deg);
+    }
+    92% {
+      transform: rotate(8deg);
+    }
+    94% {
+      transform: rotate(-5deg);
+    }
+    96% {
+      transform: rotate(2deg);
+    }
+  }
+}
+
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 28%, transparent);
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--foreground) 18%, transparent) transparent;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Frosted surface for floating chrome and hero cards. */
+@utility glass {
+  background: color-mix(in oklch, var(--card) 68%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+@utility glass-strong {
+  background: color-mix(in oklch, var(--card) 84%, transparent);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--info),
+    var(--success),
+    var(--info),
+    var(--primary)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-dot-grid {
+  background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility bg-line-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Film grain. Kept extremely faint -- it just stops large gradients banding. */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: var(--noise-opacity);
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+@utility mask-fade-b {
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent);
+}
+
+@utility mask-radial {
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 78%);
+}
+
+/*
+ * Animated gradient border. Put it on an absolutely-positioned child of a
+ * rounded, relatively-positioned parent; it paints only the 1px ring.
+ */
+@utility border-beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--beam-width, 1px);
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,
+    transparent 62%,
+    var(--primary) 74%,
+    var(--info) 82%,
+    var(--success) 88%,
+    transparent 94%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Skeleton shimmer, theme-aware. */
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    color-mix(in oklch, var(--muted), var(--foreground) 7%) 40%,
+    var(--muted) 80%
+  );
+  background-size: 200% 100%;
+}
+
+@utility squiggle {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--destructive);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+/* Syntax token colors (see src/lib/highlight.ts). */
+.tok-plain {
+  color: var(--syn-plain);
+}
+.tok-keyword {
+  color: var(--syn-keyword);
+}
+.tok-string {
+  color: var(--syn-string);
+}
+.tok-number {
+  color: var(--syn-number);
+}
+.tok-comment {
+  color: var(--syn-comment);
+  font-style: italic;
+}
+.tok-function {
+  color: var(--syn-function);
+}
+.tok-type {
+  color: var(--syn-type);
+}
+.tok-constant {
+  color: var(--syn-constant);
+}
+.tok-operator {
+  color: var(--syn-operator);
+}
+.tok-punctuation {
+  color: var(--syn-punctuation);
+}
+.tok-property {
+  color: var(--syn-property);
+}
+.tok-decorator {
+  color: var(--syn-decorator);
+}
+.tok-error {
+  color: var(--destructive);
+  font-weight: 600;
+}
+.tok-path {
+  color: var(--primary);
+  text-decoration: underline dotted color-mix(in oklch, var(--primary) 55%, transparent);
+  text-underline-offset: 3px;
+}
+
+/* The editable code surface: transparent text over a highlighted layer. */
+.code-input {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--foreground);
+  background: transparent;
+  tab-size: 2;
+}
+.code-input::selection {
+  background: color-mix(in oklch, var(--primary) 30%, transparent);
+  -webkit-text-fill-color: transparent;
+}
+
+/* Theme switch: the new theme is revealed as a growing circle (see theme-toggle.tsx). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* cmdk (command palette) */
+[cmdk-group-heading] {
+  padding: 0.5rem 0.75rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ==========================================================================
+   Motion preferences
+   System "reduce" is respected unless the user explicitly opted back into
+   full motion from Settings (data-motion="full"); an explicit "reduced"
+   choice always wins.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) *,
+  html:not([data-motion="full"]) *::before,
+  html:not([data-motion="full"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
